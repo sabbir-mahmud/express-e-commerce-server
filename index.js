@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv'
 dotenv.config()
 import connectDB from './config/connectDB.js'
+import productRouter from './routes/productRoute.js'
 
 // create express app
 const app = express();
@@ -19,7 +20,10 @@ connectDB(uri)
 // root route
 app.get('/', (req, res) => {
     res.send('E-commerce server running')
-})
+});
+
+// product route
+app.use('/api/products', productRouter)
 
 // listening server to port
 const port = process.env.PORT
