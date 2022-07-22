@@ -12,11 +12,7 @@ const getAllProduct = async (req, res) => {
 const createProduct = async (req, res) => {
     try {
         const { title, price, img, des1, des2, des3 } = req.body;
-        if (title === '' || price === '' || img === '' || des1 === '', des2 === '', des3 === '') {
-            return res.send({
-                message: 'Please fill the required fields'
-            });
-        } else {
+        if (title && price && img && des1 && des2 && des3) {
             const product = new ProductModel({
                 title: title,
                 price: price,
@@ -28,16 +24,41 @@ const createProduct = async (req, res) => {
             });
             const result = await product.save();
             res.send(result);
-
+        } else {
+            return res.send({
+                message: 'Please fill the required fields'
+            });
         };
-
     } catch (error) {
         console.log(error);
     }
-
 };
+
+// Update a product 
+const updateProduct = async (req, res) => {
+    try {
+        const id = req.params.id;
+        if (id) {
+            const product = await ProductModel.findById(id)
+            if (product) {
+
+
+                return res.send({
+                    message: "product updated"
+                })
+            } else {
+                return res.send({
+                    message: "Product not found."
+                })
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export {
     getAllProduct,
-    createProduct
+    createProduct,
+    updateProduct
 }
