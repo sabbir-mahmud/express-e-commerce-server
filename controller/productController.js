@@ -41,11 +41,25 @@ const updateProduct = async (req, res) => {
         if (id) {
             const product = await ProductModel.findById(id)
             if (product) {
+                const { title, price, img, des1, des2, des3 } = req.body;
+                if (title && price && img && des1 && des2 && des3) {
+                    const result = await product.update({
+                        title: title,
+                        price: price,
+                        img: img,
+                        des1: des1,
+                        des2: des2,
+                        des3: des3
+                    })
+                    return res.send({
+                        message: "product updated", result
+                    })
 
-
-                return res.send({
-                    message: "product updated"
-                })
+                } else {
+                    return res.send({
+                        message: "fil the required fields"
+                    })
+                }
             } else {
                 return res.send({
                     message: "Product not found."
