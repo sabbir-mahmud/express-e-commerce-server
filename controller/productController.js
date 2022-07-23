@@ -4,9 +4,9 @@ import ProductModel from '../models/productsModel.js';
 // product controllers
 // get all product : get method
 const getAllProduct = async (req, res) => {
-    const products = await ProductModel.find({})
-    res.send(products)
-}
+    const results = await ProductModel.find({})
+    res.send(results)
+};
 
 // Create a product : post method
 const createProduct = async (req, res) => {
@@ -20,7 +20,6 @@ const createProduct = async (req, res) => {
                 des1: des1,
                 des2: des2,
                 des3: des3
-
             });
             const result = await product.save();
             res.send(result);
@@ -34,7 +33,7 @@ const createProduct = async (req, res) => {
     }
 };
 
-// Update a product 
+// Update a product : PUT/PATCH
 const updateProduct = async (req, res) => {
     try {
         const id = req.params.id;
@@ -54,7 +53,6 @@ const updateProduct = async (req, res) => {
                     return res.send({
                         message: "product updated", result
                     })
-
                 } else {
                     return res.send({
                         message: "fil the required fields"
@@ -69,10 +67,31 @@ const updateProduct = async (req, res) => {
     } catch (error) {
         console.log(error);
     }
-}
+};
+
+// Delete a product : DELETE Method
+const deleteProduct = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const product = await ProductModel.findById(id)
+        if (product) {
+            await ProductModel.findByIdAndRemove(id)
+            res.send({
+                message: "Product deleted successfully"
+            })
+        } else {
+            res.send({
+                message: "Product not found"
+            })
+        }
+    } catch (error) {
+        console.log(error);
+    }
+};
 
 export {
-    getAllProduct,
-    createProduct,
-    updateProduct
+    getAllProduct, // GET Method
+    createProduct, // POST Method
+    updateProduct, // PUT Method
+    deleteProduct, // DELETE Method
 }

@@ -9,7 +9,6 @@ const productSchema = new mongoose.Schema({
     des1: { type: String, required: true },
     des2: { type: String, required: true },
     des3: { type: String, required: true },
-
 });
 
 // Model
